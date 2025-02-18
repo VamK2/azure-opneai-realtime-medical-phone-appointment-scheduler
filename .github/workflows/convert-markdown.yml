@@ -32,7 +32,15 @@ jobs:
       - name: Install dependencies
         run: |
           npm install -g @mermaid-js/mermaid-cli
-          sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-extra-utils texlive-latex-extra
+          sudo apt-get install -y \
+            pandoc \
+            texlive-full \
+            librsvg2-bin \
+            texlive-latex-base \
+            texlive-fonts-recommended \
+            texlive-extra-utils \
+            texlive-latex-extra \
+            texlive-xetex
           
       - name: Create Puppeteer config
         run: |
