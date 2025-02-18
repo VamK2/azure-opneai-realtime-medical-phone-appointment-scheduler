@@ -54,6 +54,7 @@ graph LR
     B -->|Audio| A
     B -->|Store| D[(Azure SQL DB)]
     B -->|SMS| E[Twilio SMS]
+```
 
 ### 🔄 Data Flow
 ## Incoming Call
