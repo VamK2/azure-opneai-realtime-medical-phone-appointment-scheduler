@@ -59,10 +59,10 @@ sequenceDiagram
 ### 🛠️ Tech Stack
 ```html
 Backend Framework: FastAPI
-AI Model: Azure OpenAI GPT-4
+AI Model: Azure OpenAI GPT-4o-Realtime
 Voice Services: Twilio
 Database: Azure SQL
-Runtime: Python 3.8+
+Runtime: Python 3.12
 WebSocket: asyncio/websockets
 Deployment: Azure App Service
 ```
