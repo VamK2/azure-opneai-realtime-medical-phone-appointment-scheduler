@@ -1,0 +1,61 @@
+name: Convert Markdown to PDF
+on:
+  push:
+    paths:
+      - '**.md'  # Triggers on any markdown file change
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  convert:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-node-
+            
+      - name: Install Chrome for PDF generation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser
+          
+      - name: Install dependencies
+        run: |
+          npm install -g @mermaid-js/mermaid-cli
+          sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-extra-utils texlive-latex-extra
+          
+      - name: Process Markdown files
+        run: |
+          for file in $(find . -name "*.md" -not -path "./node_modules/*")
+          do
+            filename=$(basename "$file" .md)
+            dirname=$(dirname "$file")
+            # Process Mermaid diagrams
+            mmdc -i "$file" -o "$dirname/$filename-processed.md"
+            # Convert to PDF
+            pandoc "$dirname/$filename-processed.md" \
+              -f markdown \
+              -t pdf \
+              -o "$dirname/$filename.pdf" \
+              --pdf-engine=xelatex \
+              -V geometry:"margin=1in" \
+              -V papersize:a4
+          done
+          
+      - name: Commit PDFs
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add "*.pdf"
+          git commit -m "Update PDFs" || echo "No changes to commit"
+          git push
