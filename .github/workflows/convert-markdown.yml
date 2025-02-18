@@ -34,6 +34,10 @@ jobs:
           npm install -g @mermaid-js/mermaid-cli
           sudo apt-get install -y pandoc texlive-latex-base texlive-fonts-recommended texlive-extra-utils texlive-latex-extra
           
+      - name: Create Puppeteer config
+        run: |
+          echo '{"args": ["--no-sandbox"]}' > puppeteer-config.json
+          
       - name: Process Markdown files
         run: |
           for file in $(find . -name "*.md" -not -path "./node_modules/*")
@@ -41,7 +45,7 @@ jobs:
             filename=$(basename "$file" .md)
             dirname=$(dirname "$file")
             # Process Mermaid diagrams
-            mmdc -i "$file" -o "$dirname/$filename-processed.md" -p '{ "args": ["--no-sandbox"] }'
+            mmdc -i "$file" -o "$dirname/$filename-processed.md" -p puppeteer-config.json
             # Convert to PDF
             pandoc "$dirname/$filename-processed.md" \
               -f markdown \
