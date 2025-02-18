@@ -40,8 +40,8 @@ jobs:
           do
             filename=$(basename "$file" .md)
             dirname=$(dirname "$file")
-            # Process Mermaid diagrams with --no-sandbox
-            mmdc -i "$file" -o "$dirname/$filename-processed.md" --puppeteerConfig="{ \"args\": [\"--no-sandbox\", \"--disable-setuid-sandbox\"] }"
+            # Process Mermaid diagrams
+            mmdc -i "$file" -o "$dirname/$filename-processed.md" -p '{ "args": ["--no-sandbox"] }'
             # Convert to PDF
             pandoc "$dirname/$filename-processed.md" \
               -f markdown \
