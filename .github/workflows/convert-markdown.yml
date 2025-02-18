@@ -8,8 +8,12 @@ on:
 jobs:
   convert:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Add this line to grant write permissions
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Add this line
       
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -70,4 +74,4 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add "*.pdf"
           git commit -m "Update PDFs" || echo "No changes to commit"
-          git push
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
