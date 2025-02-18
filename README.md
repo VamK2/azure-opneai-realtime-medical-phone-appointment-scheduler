@@ -142,8 +142,6 @@ For support, please open an issue in the repository or contact
 
 ### 📜 License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-<div align="center">
   
   ### 🌟 Based on Tutorial By Shailender Choudhary 🌟
   
@@ -155,7 +153,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
   *Please ensure to give proper credit when using or adapting this project*
   
-</div>
 
 ### 🌐 Explore AI Resources
 
